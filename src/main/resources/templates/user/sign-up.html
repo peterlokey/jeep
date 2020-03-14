@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body class="container">
+
+<!--<nav th:replace="fragments :: navigation"></nav>-->
+
+<h1 th:text="${title}">Default Title</h1>
+
+<form method="post" style="max-width:600px;" th:object="${user}">
+    <div class="form-group">
+        <label th:for="first-name">First Name</label>
+        <input class="form-control" th:field="*{firstName}"/>
+        <span th:text="${firstNameError}" class="error-message"></span>
+
+    </div>
+    <div class="form-group">
+        <label th:for="last-name">First Name</label>
+        <input class="form-control" th:field="*{lastName}"/>
+        <span th:text="${lastNameError}" class="error-message"></span>
+
+    </div>
+    <div class="form-group">
+        <label th:for="email">Email</label>
+        <input type="email" class="form-control" th:field="*{email}"/>
+        <span th:text="${emailError}" class="error-message"></span>
+    </div>
+
+    <div class="form-group">
+        <label th:for="password">Password</label>
+        <input type="password" class="form-control" th:field="*{password}"/>
+        <span th:text="${passwordError}" class="error-message"></span>
+
+
+    </div>
+    <div class="form-group">
+        <label for="verify">Verify Password</label>
+        <input type="password" class="form-control" id="verify" name="verify"/>
+    </div>
+    <input type="submit" value="Sign Up" />
+</form>
+</body>
+</html>
