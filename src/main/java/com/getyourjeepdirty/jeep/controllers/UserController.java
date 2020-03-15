@@ -79,8 +79,8 @@ public class UserController {
         userDao.save(user);
 
         HttpSession session = request.getSession();
-        session.setAttribute("name", user.getEmail());
-        model.addAttribute("name", user.getEmail());
+        session.setAttribute("id", user.getId());
+        model.addAttribute("id", user.getId());
         return "index";
     }
 
@@ -116,7 +116,7 @@ public class UserController {
 
 
         HttpSession session = request.getSession();
-        session.setAttribute("name", user.getEmail());
+        session.setAttribute("id", user.getId());
 
         return "redirect:..";
 

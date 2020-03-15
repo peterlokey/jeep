@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body class="container">
+
+<form method="post" th:object="${event}">
+    <div class="form-group">
+        <label th:for="name">Event Name</label>
+        <input th:field="*{name}">
+    </div>
+    <div class="form-group">
+        <label th:for="dateTime">Date and Time</label>
+        <input th:field="*{dateTime}" type="datetime-local">
+    </div>
+    <div class="form-group">
+        <label th:for="location">Location</label>
+        <input th:field="*{location}">
+    </div>
+    <div class="form-group">
+        <label th:for="description">Event Description</label>
+        <textarea th:field="*{description}" rows="4" cols="30"></textarea>
+    </div>
+    <input type="hidden" th:field="*{creator}" value="${user}">
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+</body>
+</html>
