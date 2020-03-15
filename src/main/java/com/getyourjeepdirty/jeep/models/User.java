@@ -14,12 +14,12 @@ public class User {
     private int id;
 
     @NotNull
-    @Column(unique=true)
+    @Column
     @Size(min=2, max=16)
     private String firstName;
 
     @NotNull
-    @Column(unique=true)
+    @Column
     @Size(min=2, max=16)
     private String lastName;
 

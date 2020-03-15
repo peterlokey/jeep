@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -81,5 +82,49 @@ public class UserController {
         session.setAttribute("name", user.getEmail());
         model.addAttribute("name", user.getEmail());
         return "index";
+    }
+
+    @RequestMapping(value = "login", method = RequestMethod.GET)
+    public String login(Model model) {
+
+        model.addAttribute("title", "Log In");
+        return "user/login";
+    }
+
+    @RequestMapping(value = "login", method = RequestMethod.POST)
+    public String login(Model model, @RequestParam String email, @RequestParam String password, HttpServletRequest request) {
+        int userId = 0;
+        boolean found = false;
+        for (User user : userDao.findAll()) {
+            if (user.getEmail().equals(email)){
+                userId = user.getId();
+                found = true;
+            }
+        }
+
+        if (!found){
+            model.addAttribute("emailError", "Email not found");
+            return "user/login";
+        }
+        User user = userDao.findById(userId).orElse(null);
+
+        if (!user.getPassword().equals(password)){
+            model.addAttribute("emailError", "Email and password do not match");
+            model.addAttribute("email", email);
+            return "user/login";
+        }
+
+
+        HttpSession session = request.getSession();
+        session.setAttribute("name", user.getEmail());
+
+        return "redirect:..";
+
+    }
+
+    @RequestMapping(value = "logout", method = RequestMethod.GET)
+    public String login(HttpSession session){
+        session.invalidate();
+        return "redirect:..";
     }
 }
