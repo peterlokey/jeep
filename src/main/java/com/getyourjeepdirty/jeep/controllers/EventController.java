@@ -37,14 +37,18 @@ public class EventController {
         HttpSession session=request.getSession(false);
         int id = (int)session.getAttribute("id");
         User user = userDao.findById(id).get();     //DELETE THIS???
-        model.addAttribute("user", id);
+        System.out.println("ID: " + id + " " + user.getFirstName());
+        model.addAttribute("user", user);
         model.addAttribute("event", new Event());
         return "event/new";
     }
 
     @RequestMapping(value = "new", method = RequestMethod.POST)
-    public String newEvent (Model model, @Valid @ModelAttribute Event event) {
+    public String newEvent (Model model, @Valid @ModelAttribute Event event, String userId) {
+        User user = userDao.findById(Integer.parseInt(userId)).get();
+        event.setUser(user);
         eventDao.save(event);
+
         return "redirect:..";
     }
 

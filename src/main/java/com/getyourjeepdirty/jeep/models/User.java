@@ -30,7 +30,7 @@ public class User {
     @NotNull
     private String password;
 
-    @OneToMany(mappedBy = "creator")
+    @OneToMany(mappedBy = "user")
     private List<Event> events = new ArrayList<Event>();
 
 

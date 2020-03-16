@@ -24,8 +24,8 @@ public class Event {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "user")
-    private User creator;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public int getId() {
         return id;
@@ -63,11 +63,11 @@ public class Event {
         this.description = description;
     }
 
-    public User getCreator() {
-        return creator;
+    public User getUser() {
+        return user;
     }
 
-    public void setCreator(User creator) {
-        this.creator = creator;
+    public void setUser(User user) {
+        this.user = user;
     }
 }
