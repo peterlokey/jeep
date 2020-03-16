@@ -49,8 +49,8 @@ public class EventController {
     public String newEvent (Model model, @Valid @ModelAttribute Event event, String userId) throws ParseException {
         User user = userDao.findById(Integer.parseInt(userId)).get();
         event.setUser(user);
-        System.out.println(event.getDateTime());
-        Date date =new SimpleDateFormat("yyyy-MM-dd'T'hh:mm").parse(event.getDateTime());
+        Date date  = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm").parse(event.getDateTime());
+
         SimpleDateFormat sdf = new SimpleDateFormat("E MMM d, yyyy");
         event.setFormattedDate(sdf.format(date));
         eventDao.save(event);

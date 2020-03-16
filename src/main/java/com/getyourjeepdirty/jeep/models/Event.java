@@ -3,7 +3,6 @@ package com.getyourjeepdirty.jeep.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
 
 @Entity
 public class Event {
@@ -15,7 +14,6 @@ public class Event {
     @Size(min=0, max=30)
     private String name;
 
-    @NotNull
     private String dateTime;
 
     private String formattedDate;
