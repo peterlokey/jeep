@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -56,6 +57,16 @@ public class EventController {
         eventDao.save(event);
 
         return "redirect:..";
+    }
+
+    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    public String displayEvent (Model model, @PathVariable("id") int id){
+        Event event = eventDao.findById(id).get();
+        model.addAttribute("event", event);
+        User user = event.getUser();
+        String userName = user.getFirstName() + " " + user.getLastName();
+        model.addAttribute("creatorName", userName);
+        return "event/view";
     }
 
 }
