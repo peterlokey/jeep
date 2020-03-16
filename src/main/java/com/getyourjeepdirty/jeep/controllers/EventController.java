@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 //TODO: Signed-in user not being stored as "Creator" of new event
 
@@ -37,16 +40,19 @@ public class EventController {
         HttpSession session=request.getSession(false);
         int id = (int)session.getAttribute("id");
         User user = userDao.findById(id).get();     //DELETE THIS???
-        System.out.println("ID: " + id + " " + user.getFirstName());
         model.addAttribute("user", user);
         model.addAttribute("event", new Event());
         return "event/new";
     }
 
     @RequestMapping(value = "new", method = RequestMethod.POST)
-    public String newEvent (Model model, @Valid @ModelAttribute Event event, String userId) {
+    public String newEvent (Model model, @Valid @ModelAttribute Event event, String userId) throws ParseException {
         User user = userDao.findById(Integer.parseInt(userId)).get();
         event.setUser(user);
+        System.out.println(event.getDateTime());
+        Date date =new SimpleDateFormat("yyyy-MM-dd'T'hh:mm").parse(event.getDateTime());
+        SimpleDateFormat sdf = new SimpleDateFormat("E MMM d, yyyy");
+        event.setFormattedDate(sdf.format(date));
         eventDao.save(event);
 
         return "redirect:..";

@@ -18,6 +18,8 @@ public class Event {
     @NotNull
     private String dateTime;
 
+    private String formattedDate;
+
     @NotNull
     private String location;
 
@@ -45,6 +47,14 @@ public class Event {
 
     public void setDateTime(String dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public String getFormattedDate() {
+        return formattedDate;
+    }
+
+    public void setFormattedDate(String formattedDate) {
+        this.formattedDate = formattedDate;
     }
 
     public String getLocation() {
