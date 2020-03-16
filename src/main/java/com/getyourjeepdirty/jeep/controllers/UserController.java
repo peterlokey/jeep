@@ -117,7 +117,6 @@ public class UserController {
 
         HttpSession session = request.getSession();
         session.setAttribute("id", user.getId());
-
         return "redirect:..";
 
     }
