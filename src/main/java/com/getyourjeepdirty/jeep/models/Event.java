@@ -3,6 +3,8 @@ package com.getyourjeepdirty.jeep.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Event {
@@ -24,8 +26,15 @@ public class Event {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "creator_id")
+    private User creator;
+
+    @ManyToMany(mappedBy = "attendingEvents")
+    private List<User> attendees = new ArrayList<>();
+
+    @OneToMany
+    @JoinColumn(name = "event_id")
+    private List<Comment> comments = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -71,11 +80,11 @@ public class Event {
         this.description = description;
     }
 
-    public User getUser() {
-        return user;
+    public User getCreator() {
+        return creator;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
 }

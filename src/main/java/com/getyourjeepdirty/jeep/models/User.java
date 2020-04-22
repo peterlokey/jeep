@@ -1,5 +1,8 @@
 package com.getyourjeepdirty.jeep.models;
 
+import com.getyourjeepdirty.jeep.models.data.EventDao;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -30,8 +33,15 @@ public class User {
     @NotNull
     private String password;
 
-    @OneToMany(mappedBy = "user")
-    private List<Event> events = new ArrayList<Event>();
+    @OneToMany(mappedBy = "creator")
+    private List<Event> createdEvents = new ArrayList<Event>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "User_Event",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "event_id") })
+    private List<Event> attendingEvents = new ArrayList<Event>();
 
 
     //getters and setters
@@ -70,5 +80,17 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Event> getCreatedEvents() {
+        return createdEvents;
+    }
+
+    public List<Event> getAttendingEvents() {
+        return attendingEvents;
+    }
+
+    public void addAttendingEvent(Event event) {
+        this.attendingEvents.add(event);
     }
 }

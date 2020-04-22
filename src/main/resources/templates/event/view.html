@@ -6,6 +6,7 @@
     <h4 th:text="'Created by: ' + ${creatorName}"></h4>
     <h5 th:text="${event.formattedDate}"></h5>
     <h5 th:text="'Location: ' + ${event.location}"></h5>
+    <a th:href="@{${event.id} + '/join'}" class="btn btn-primary">Join Event</a>
     <h6 th:text="${event.description}"></h6>
 </body>
 </html>

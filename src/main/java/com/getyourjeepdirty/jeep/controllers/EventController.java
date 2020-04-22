@@ -41,7 +41,7 @@ public class EventController {
         HttpSession session=request.getSession(false);
         int id = (int)session.getAttribute("id");
         User user = userDao.findById(id).get();     //DELETE THIS???
-        model.addAttribute("user", user);
+        model.addAttribute("creator", user);
         model.addAttribute("event", new Event());
         return "event/new";
     }
@@ -49,7 +49,7 @@ public class EventController {
     @RequestMapping(value = "new", method = RequestMethod.POST)
     public String newEvent (Model model, @Valid @ModelAttribute Event event, String userId) throws ParseException {
         User user = userDao.findById(Integer.parseInt(userId)).get();
-        event.setUser(user);
+        event.setCreator(user);
         Date date  = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm").parse(event.getDateTime());
 
         SimpleDateFormat sdf = new SimpleDateFormat("E MMM d, yyyy");
@@ -63,10 +63,24 @@ public class EventController {
     public String displayEvent (Model model, @PathVariable("id") int id){
         Event event = eventDao.findById(id).get();
         model.addAttribute("event", event);
-        User user = event.getUser();
+        User user = event.getCreator();
         String userName = user.getFirstName() + " " + user.getLastName();
         model.addAttribute("creatorName", userName);
         return "event/view";
+    }
+
+    @RequestMapping(value = "{id}/join", method = RequestMethod.GET)
+    public String joinEvent (Model model, @PathVariable("id") int eventId, HttpServletRequest request){
+        HttpSession session=request.getSession(false);
+        int userId = (int)session.getAttribute("id");
+        User user = userDao.findById(userId).get();
+
+        Event event = eventDao.findById(eventId).orElse(null);
+
+        user.addAttendingEvent(event);
+        userDao.save(user);
+
+        return "redirect:../..";
     }
 
 }

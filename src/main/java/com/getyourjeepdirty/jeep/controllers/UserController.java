@@ -1,5 +1,6 @@
 package com.getyourjeepdirty.jeep.controllers;
 
+import com.getyourjeepdirty.jeep.models.data.EventDao;
 import com.getyourjeepdirty.jeep.models.data.UserDao;
 import com.getyourjeepdirty.jeep.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class UserController {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private EventDao eventDao;
 
     @RequestMapping(value = "signup", method = RequestMethod.GET)
     public String signUp(Model model) {
@@ -85,10 +89,14 @@ public class UserController {
     }
 
     @RequestMapping(value = "login", method = RequestMethod.GET)
-    public String login(Model model) {
+    public String login(Model model, /*delete after testing*/ HttpServletRequest request ) {
 
-        model.addAttribute("title", "Log In");
-        return "user/login";
+        /*model.addAttribute("title", "Log In");
+        return "user/login";*/
+
+        HttpSession session = request.getSession();
+        session.setAttribute("id", 10);
+        return "redirect:..";
     }
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
@@ -117,6 +125,7 @@ public class UserController {
 
         HttpSession session = request.getSession();
         session.setAttribute("id", user.getId());
+
         return "redirect:..";
 
     }
