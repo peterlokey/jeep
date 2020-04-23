@@ -13,13 +13,14 @@ public class Comment {
     private int id;
 
     @ManyToOne
+    @JoinColumn(name = "event_id")
     private Event event;
 
-/*
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User author;
-*/
+
 
     private String text;
 
