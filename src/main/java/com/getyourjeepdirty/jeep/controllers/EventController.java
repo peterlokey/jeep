@@ -81,6 +81,8 @@ public class EventController {
         }
         if(!userIsAttending){model.addAttribute("isAttending", 0);}
 
+        model.addAttribute("attendees", event.getAttendees());
+
         return "event/view";
     }
 

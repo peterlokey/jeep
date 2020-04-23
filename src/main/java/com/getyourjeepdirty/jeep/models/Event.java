@@ -87,4 +87,13 @@ public class Event {
     public void setCreator(User creator) {
         this.creator = creator;
     }
+
+    public List<User> getAttendees() {
+        return attendees;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
 }
