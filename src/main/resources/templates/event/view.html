@@ -6,7 +6,11 @@
     <h4 th:text="'Created by: ' + ${creatorName}"></h4>
     <h5 th:text="${event.formattedDate}"></h5>
     <h5 th:text="'Location: ' + ${event.location}"></h5>
-    <a th:href="@{${event.id} + '/join'}" class="btn btn-primary">Join Event</a>
+    <h5 th:unless="${session.id}" th:text="Sign Up or Log In to join an event!"></h5>
+    <a th:if="${session.id} and !${isAttending}"
+            th:href="@{${event.id} + '/join'}" class="btn btn-primary">Join Event</a>
+    <a th:if="${session.id} and ${isAttending}"
+       th:href="@{${event.id} + '/leave'}" class="btn btn-primary">Leave Event</a>
     <h6 th:text="${event.description}"></h6>
 </body>
 </html>

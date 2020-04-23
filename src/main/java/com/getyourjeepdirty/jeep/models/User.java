@@ -93,4 +93,8 @@ public class User {
     public void addAttendingEvent(Event event) {
         this.attendingEvents.add(event);
     }
+
+    public void removeAttendingEvent(Event event){
+        this.attendingEvents.remove(event);
+    }
 }

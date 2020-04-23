@@ -4,6 +4,8 @@ import com.getyourjeepdirty.jeep.models.Event;
 import com.getyourjeepdirty.jeep.models.User;
 import com.getyourjeepdirty.jeep.models.data.EventDao;
 import com.getyourjeepdirty.jeep.models.data.UserDao;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +20,7 @@ import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 //TODO: Signed-in user not being stored as "Creator" of new event
 
@@ -60,12 +63,24 @@ public class EventController {
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    public String displayEvent (Model model, @PathVariable("id") int id){
-        Event event = eventDao.findById(id).get();
+    public String displayEvent (Model model, @PathVariable("id") int eventId, HttpServletRequest request){
+        Event event = eventDao.findById(eventId).get();
         model.addAttribute("event", event);
-        User user = event.getCreator();
-        String userName = user.getFirstName() + " " + user.getLastName();
-        model.addAttribute("creatorName", userName);
+        User creator = event.getCreator();
+        String creatorName = creator.getFirstName() + " " + creator.getLastName();
+        model.addAttribute("creatorName", creatorName);
+
+        //determine if the active user has joined this event//
+        boolean userIsAttending = false;
+        HttpSession session=request.getSession(false);
+        if(session!=null) {
+            int userId = (int) session.getAttribute("id");
+            User user = userDao.findById(userId).get();
+            userIsAttending = user.getAttendingEvents().contains(event);
+            model.addAttribute("isAttending", userIsAttending);
+        }
+        if(!userIsAttending){model.addAttribute("isAttending", 0);}
+
         return "event/view";
     }
 
@@ -83,4 +98,17 @@ public class EventController {
         return "redirect:../..";
     }
 
+    @RequestMapping(value = "{id}/leave", method = RequestMethod.GET)
+    public String leaveEvent (Model model, @PathVariable("id") int eventId, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        int userId = (int) session.getAttribute("id");
+        User user = userDao.findById(userId).get();
+
+        Event event = eventDao.findById(eventId).orElse(null);
+
+        user.removeAttendingEvent(event);
+        userDao.save(user);
+
+        return "redirect:../..";
+    }
 }
