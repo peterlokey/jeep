@@ -20,5 +20,16 @@
         <h6 th:text="${user.firstName} + ' ' +${user.lastName}"></h6>
     </div>
 </div>
+<div th:if="${session.id} and ${isAttending}">
+    <h2>Comments</h2>
+    <a th:href="@{${event.id} + '/addComment'}" class="btn btn-primary">Add Comment</a>
+    <ul>
+        <li th:each="comment : ${commentList}">
+            <h5 th:text="${comment.author.firstName} +' '+ ${comment.author.lastName}"></h5>
+            <h6 th:text="${comment.text}"></h6>
+            <h6 th:text="${comment.dateTime}"></h6>
+        </li>
+    </ul>
+</div>
 </body>
 </html>

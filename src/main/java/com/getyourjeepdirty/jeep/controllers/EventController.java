@@ -22,7 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-//TODO: Signed-in user not being stored as "Creator" of new event
+//TODO: Create "Add Comment" form
 
 @Controller
 @RequestMapping(value = "event")
@@ -82,6 +82,7 @@ public class EventController {
         if(!userIsAttending){model.addAttribute("isAttending", 0);}
 
         model.addAttribute("attendees", event.getAttendees());
+        model.addAttribute("commentList", event.getComments());
 
         return "event/view";
     }
@@ -112,5 +113,12 @@ public class EventController {
         userDao.save(user);
 
         return "redirect:../..";
+    }
+
+    @RequestMapping(value = "{id}/addComment", method = RequestMethod.GET)
+    public String addComment (Model model, @PathVariable("id") int eventId, HttpServletRequest request){
+        System.out.println("Add Comment link clicked");
+
+        return "redirect:";
     }
 }
