@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body>
+    <h2>Add A Comment</h2>
+    <form method="post" >
+        <div class="form-group">
+            <label th:for="text">Type Your Comment</label>
+            <textarea name="text" rows="4" cols="30"></textarea>
+            <button class="btn btn-primary" type="submit">Add Comment</button>
+        </div>
+    </form>
+</body>
+</html>

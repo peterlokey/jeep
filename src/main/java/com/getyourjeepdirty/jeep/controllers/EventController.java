@@ -1,7 +1,9 @@
 package com.getyourjeepdirty.jeep.controllers;
 
+import com.getyourjeepdirty.jeep.models.Comment;
 import com.getyourjeepdirty.jeep.models.Event;
 import com.getyourjeepdirty.jeep.models.User;
+import com.getyourjeepdirty.jeep.models.data.CommentDao;
 import com.getyourjeepdirty.jeep.models.data.EventDao;
 import com.getyourjeepdirty.jeep.models.data.UserDao;
 import org.hibernate.Session;
@@ -9,14 +11,12 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,6 +33,9 @@ public class EventController {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private CommentDao commentDao;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String index(Model model) {
@@ -118,6 +121,27 @@ public class EventController {
     @RequestMapping(value = "{id}/addComment", method = RequestMethod.GET)
     public String addComment (Model model, @PathVariable("id") int eventId, HttpServletRequest request){
         System.out.println("Add Comment link clicked");
+
+        return "event/add_comment";
+    }
+
+    @RequestMapping(value = "{id}/addComment", method = RequestMethod.POST)
+    public String saveComment (Model model, @PathVariable("id") int eventId, HttpServletRequest request,
+                               @RequestParam String text){
+        Comment comment = new Comment();
+        //set Comment's Author
+        HttpSession session = request.getSession(false);
+        Integer userId = (int) session.getAttribute("id");
+        comment.setAuthor(userDao.findById(userId).get());
+        //set Comment's Text
+        comment.setText(text);
+        //set Comment's timestamp
+        comment.setDateTime(new Timestamp(System.currentTimeMillis()));
+        //set Comment's Parent Event
+        Event event = eventDao.findById(eventId).get();
+        comment.setEvent(event);
+
+        commentDao.save(comment);
 
         return "redirect:";
     }
