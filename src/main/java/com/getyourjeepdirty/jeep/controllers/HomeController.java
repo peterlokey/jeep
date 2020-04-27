@@ -8,8 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+
+//TODO: Add Link to index.html to create new event
 
 @Controller
 public class HomeController {
@@ -23,6 +27,7 @@ public class HomeController {
         for (Event e : eventDao.findAll()){
             eventList.add(e);
         }*/
+
         model.addAttribute("eventList", sortedByDate());
         return "index";
     }
@@ -31,7 +36,18 @@ public class HomeController {
         ArrayList<Event> sortedList = new ArrayList<>();
         boolean first = true;
         for (Event e : eventDao.findAll()){
+            //LocalDateTime date = LocalDateTime.now();
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm");
+            String currentDateString = dtf.format(LocalDateTime.now());
+
+            if(e.getDateTime().compareTo(currentDateString) > 0){
                 sortedList.add(e);
+            }
+/*
+
+            System.out.println(e.getDateTime());
+            System.out.println(currentDateString);
+*/
         }
         for (int j=0; j<sortedList.size(); j++){
             for(int i=j+1; i<sortedList.size(); i++){

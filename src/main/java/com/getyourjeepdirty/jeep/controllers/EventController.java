@@ -22,7 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-//TODO: Create "Add Comment" form
+//TODO: On Add New Event form: handle Date input to ensure a future date is selected
 
 @Controller
 @RequestMapping(value = "event")
@@ -56,6 +56,7 @@ public class EventController {
     public String newEvent (Model model, @Valid @ModelAttribute Event event, String userId) throws ParseException {
         User user = userDao.findById(Integer.parseInt(userId)).get();
         event.setCreator(user);
+        System.out.println(event.getDateTime() + " " + event.getDateTime().getClass());
         Date date  = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm").parse(event.getDateTime());
 
         SimpleDateFormat sdf = new SimpleDateFormat("E MMM d, yyyy");
