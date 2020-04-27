@@ -101,7 +101,7 @@ public class EventController {
         user.addAttendingEvent(event);
         userDao.save(user);
 
-        return "redirect:../..";
+        return "redirect:/event/"+eventId;
     }
 
     @RequestMapping(value = "{id}/leave", method = RequestMethod.GET)
@@ -114,8 +114,9 @@ public class EventController {
 
         user.removeAttendingEvent(event);
         userDao.save(user);
+        model.addAttribute("event", event);
 
-        return "redirect:../..";
+        return "redirect:/event/"+eventId;
     }
 
     @RequestMapping(value = "{id}/addComment", method = RequestMethod.GET)
@@ -143,6 +144,6 @@ public class EventController {
 
         commentDao.save(comment);
 
-        return "redirect:";
+        return "redirect:/event/"+eventId;
     }
 }
