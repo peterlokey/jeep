@@ -1,3 +1,14 @@
 .error-message {
     color: red;
 }
+
+.bg {
+    background-color: #c4c3bc;
+}
+
+.top-buffer { margin-top: 90px;}
+
+#user-list {
+    position: absolute;
+  right: 0px;
+  }

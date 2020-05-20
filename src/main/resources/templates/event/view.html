@@ -1,35 +1,80 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
-<body>
-    <h1 th:text="${event.name}"></h1>
-    <h4 th:text="'Created by: ' + ${creatorName}"></h4>
+<body class="bg">
+<nav th:replace="fragments :: nav"></nav>
+<div class="container top-buffer">
+    <div class="row">
+        <div class="col-8">
+            <h1 th:text="${event.name}" ></h1>
+            <h5 th:text="'Created by: ' + ${creatorName}" ></h5>
+        </div>
+    </div>
     <h5 th:text="${event.formattedDate}"></h5>
     <h5 th:text="'Location: ' + ${event.location}"></h5>
-    <h5 th:unless="${session.id}">Sign Up or Log In to join an event!"</h5>
+    <h5 th:unless="${session.id}">Sign Up or Log In to join an event!</h5>
     <a th:if="${session.id} and !${isAttending}"
             th:href="@{${event.id} + '/join'}" class="btn btn-primary">Join Event</a>
     <a th:if="${session.id} and ${isAttending}"
        th:href="@{${event.id} + '/leave'}" class="btn btn-primary">Leave Event</a>
     <h6 th:text="${event.description}"></h6>
 
-<br><br>
-<div>
-<h2>Users that have joined this event</h2>
-    <div th:each="user : ${attendees}">
-        <h6 th:text="${user.firstName} + ' ' +${user.lastName}"></h6>
+    <!-- Tabs for Attendance List and Event Discussion -->
+    <div th:if="${session.id} and ${isAttending}">
+        <ul class="nav nav-pills">
+            <li class="active"><a data-toggle="pill" href="#attendees">People Attending</a></li>
+            <li><a data-toggle="pill" href="#discussion">Event Discussion</a></li>
+
+        </ul>
+
+        <div class="tab-content">
+            <div id="attendees" class="tab-pane fade in active">
+                <div class="col">
+                    <h2>People Attending</h2>
+                    <div th:each="user : ${attendees}">
+                        <h6 th:text="${user.firstName} + ' ' +${user.lastName}"></h6>
+                    </div>
+                </div>
+            </div>
+            <div id="discussion" class="tab-pane fade">
+                <h2>Comments</h2>
+                <a th:href="@{${event.id} + '/addComment'}" class="btn btn-primary">Add Comment</a>
+                <ul>
+                    <li th:each="comment : ${commentList}">
+                        <h5 th:text="${comment.author.firstName} +' '+ ${comment.author.lastName}"></h5>
+                        <h6 th:text="${comment.text}"></h6>
+                        <h6 th:text="${comment.dateTime}"></h6>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-</div>
-<div th:if="${session.id} and ${isAttending}">
-    <h2>Comments</h2>
-    <a th:href="@{${event.id} + '/addComment'}" class="btn btn-primary">Add Comment</a>
-    <ul>
-        <li th:each="comment : ${commentList}">
-            <h5 th:text="${comment.author.firstName} +' '+ ${comment.author.lastName}"></h5>
-            <h6 th:text="${comment.text}"></h6>
-            <h6 th:text="${comment.dateTime}"></h6>
-        </li>
+
+
+    <ul class="nav nav-pills">
+        <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+        <li><a data-toggle="tab" href="#menu1">Menu 1</a></li>
+        <li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
     </ul>
+
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+            <h3>HOME</h3>
+            <p>Some content.</p>
+        </div>
+        <div id="menu1" class="tab-pane fade">
+            <h3>Menu 1</h3>
+            <p>Some content in menu 1.</p>
+        </div>
+        <div id="menu2" class="tab-pane fade">
+            <h3>Menu 2</h3>
+            <p>Some content in menu 2.</p>
+        </div>
+    </div>
+
+
+
+
 </div>
 </body>
 </html>
