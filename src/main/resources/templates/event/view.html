@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
-<body class="bg">
+<body>
 <nav th:replace="fragments :: nav"></nav>
 <div class="container top-buffer">
     <div class="row">
@@ -21,60 +21,60 @@
 
     <!-- Tabs for Attendance List and Event Discussion -->
     <div th:if="${session.id} and ${isAttending}">
-        <ul class="nav nav-pills">
-            <li class="active"><a data-toggle="pill" href="#attendees">People Attending</a></li>
-            <li><a data-toggle="pill" href="#discussion">Event Discussion</a></li>
+        <ul class="nav nav-tabs" id="myTab"> <!--Trying with nav-tabs instead of nav-pills -->
+            <li class="nav-item event-tab active">
+                <a class="nav-link " data-toggle="tab" href="#attendees">People Attending</a>
+            </li>
+            <li class="nav-item event-tab">
+                <a class="nav-link" data-toggle="tab" href="#discussion">Event Discussion</a>
+            </li>
 
         </ul>
 
         <div class="tab-content">
-            <div id="attendees" class="tab-pane fade in active">
+            <div id="attendees" class="tab-pane active">
+                <h2>People Attending</h2>
                 <div class="col">
-                    <h2>People Attending</h2>
                     <div th:each="user : ${attendees}">
                         <h6 th:text="${user.firstName} + ' ' +${user.lastName}"></h6>
                     </div>
                 </div>
             </div>
-            <div id="discussion" class="tab-pane fade">
+
+            <div id="discussion" class="tab-pane">
                 <h2>Comments</h2>
-                <a th:href="@{${event.id} + '/addComment'}" class="btn btn-primary">Add Comment</a>
-                <ul>
-                    <li th:each="comment : ${commentList}">
-                        <h5 th:text="${comment.author.firstName} +' '+ ${comment.author.lastName}"></h5>
-                        <h6 th:text="${comment.text}"></h6>
-                        <h6 th:text="${comment.dateTime}"></h6>
-                    </li>
-                </ul>
+                <div class="col">
+                    <a th:href="@{${event.id} + '/addComment'}" class="btn btn-primary">Add Comment</a>
+                    <ul>
+                        <li th:each="comment : ${commentList}">
+                            <h5 th:text="${comment.author.firstName} +' '+ ${comment.author.lastName}"></h5>
+                            <h6 th:text="${comment.text}"></h6>
+                            <h6 th:text="${comment.dateTime}"></h6>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
 
 
-    <ul class="nav nav-pills">
-        <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
-        <li><a data-toggle="tab" href="#menu1">Menu 1</a></li>
-        <li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
-    </ul>
-
-    <div class="tab-content">
-        <div id="home" class="tab-pane fade in active">
-            <h3>HOME</h3>
-            <p>Some content.</p>
-        </div>
-        <div id="menu1" class="tab-pane fade">
-            <h3>Menu 1</h3>
-            <p>Some content in menu 1.</p>
-        </div>
-        <div id="menu2" class="tab-pane fade">
-            <h3>Menu 2</h3>
-            <p>Some content in menu 2.</p>
-        </div>
-    </div>
-
 
 
 
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+
+
+<script>
+   $('#myTab a').click(function (e) {
+     e.preventDefault()
+     $(this).tab('show')
+   })
+</script>
+
 </body>
 </html>

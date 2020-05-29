@@ -122,7 +122,6 @@ public class EventController {
 
     @RequestMapping(value = "{id}/addComment", method = RequestMethod.GET)
     public String addComment (Model model, @PathVariable("id") int eventId, HttpServletRequest request){
-        System.out.println("Add Comment link clicked");
 
         return "event/add_comment";
     }
