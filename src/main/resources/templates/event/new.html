@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
-<body class="container">
+<body class="container top-buffer">
+
+<nav th:replace="fragments :: nav"></nav>
 
 <form method="post" th:object="${event}">
     <div class="form-group">

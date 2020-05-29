@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+//TODO: Populate event list after log-in and sign-up
+
 @Controller
 @RequestMapping(value = "user")
 public class UserController {
@@ -85,18 +87,19 @@ public class UserController {
         HttpSession session = request.getSession();
         session.setAttribute("id", user.getId());
         model.addAttribute("id", user.getId());
-        return "index";
+
+        return "redirect:..";
     }
 
     @RequestMapping(value = "login", method = RequestMethod.GET)
     public String login(Model model, /*delete after testing*/ HttpServletRequest request ) {
 
-        /*model.addAttribute("title", "Log In");
-        return "user/login";*/
+        model.addAttribute("title", "Log In");
+        return "user/login";
 
-        HttpSession session = request.getSession();
+        /*HttpSession session = request.getSession();
         session.setAttribute("id", 10);
-        return "redirect:..";
+        return "redirect:..";*/
     }
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
