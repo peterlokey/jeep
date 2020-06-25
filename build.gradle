@@ -35,6 +35,8 @@ dependencies {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 	compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.3'
+	implementation 'org.flywaydb:flyway-core'
+
 
 }
 

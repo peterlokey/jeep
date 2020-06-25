@@ -1,0 +1,6 @@
+applications:
+  - name: jeep
+    buildpack: java_buildpack
+    path: build/libs/jeep-0.0.1-SNAPSHOT.jar
+    services:
+      - jeep-db
