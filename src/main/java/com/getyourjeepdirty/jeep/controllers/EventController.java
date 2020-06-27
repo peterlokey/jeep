@@ -47,7 +47,7 @@ public class EventController {
         HttpSession session=request.getSession(false);
         int id = (int)session.getAttribute("id");
         User user = userDao.findById(id).get();     //DELETE THIS???
-        model.addAttribute("creator", user);
+        model.addAttribute("user", user);
         model.addAttribute("event", new Event());
         return "event/new";
     }
