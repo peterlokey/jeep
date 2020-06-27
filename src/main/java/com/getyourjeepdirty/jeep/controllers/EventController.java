@@ -49,19 +49,22 @@ public class EventController {
         User user = userDao.findById(id).get();     //DELETE THIS???
         model.addAttribute("creator", user);
         model.addAttribute("event", new Event());
+        System.out.println("GET request handled.");
         return "event/new";
     }
 
     @RequestMapping(value = "new", method = RequestMethod.POST)
     public String newEvent (Model model, @Valid @ModelAttribute Event event, String userId) throws ParseException {
+        System.out.println(event + " " + userId);
         User user = userDao.findById(Integer.parseInt(userId)).get();
         event.setCreator(user);
-        System.out.println(event.getDateTime() + " " + event.getDateTime().getClass());
         Date date  = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm").parse(event.getDateTime());
 
         SimpleDateFormat sdf = new SimpleDateFormat("E MMM d, yyyy");
         event.setFormattedDate(sdf.format(date));
+        System.out.println("Checkpoint 1. Attempting to save event.");
         eventDao.save(event);
+        System.out.println("Checkpoint 2. Event saved, redirecting.");
 
         return "redirect:..";
     }
