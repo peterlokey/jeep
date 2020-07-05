@@ -8,6 +8,8 @@
 
 <h1 th:text="${title}">Default Title</h1>
 
+<p>*DISCLAIMER* Off-Roading is an inherently dangerous activity. The creators of getyourjeepdirty.com shall not be responsible for any damage to any person or property during an event scheduled through this site. Please read the full <a th:href="@{terms}">Terms of Service</a>.</p>
+
 <form method="post" style="max-width:600px;" th:object="${user}">
     <div class="form-group">
         <label th:for="first-name">First Name</label>

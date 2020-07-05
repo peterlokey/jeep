@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -30,6 +31,11 @@ public class HomeController {
 
         model.addAttribute("eventList", sortedByDate());
         return "index";
+    }
+
+    @RequestMapping(value = "terms")
+    public String terms() {
+        return "terms";
     }
 
     public ArrayList<Event> sortedByDate() {
